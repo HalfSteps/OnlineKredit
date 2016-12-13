@@ -1,0 +1,82 @@
+﻿@model _DB_AG__Online_Kredit.Models.FinanzielleSituationModel
+
+@{
+    ViewBag.Title = "FinanzielleSituation";
+}
+
+<div id="content" style="margin-top: 20px">
+    <h2>FinanzielleSituation</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ID_Kunde)
+
+        <div class="form-horizontal">
+            <div class="row" style="margin-top: 20px">
+                <div class="col-lg-offset-4 col-md-offset-4 col-lg-6 col-md-6">
+                    Bitte tragen Sie in die unten stehenden Eingabefelder Ihre aktuelle finanzielle Situation ein.
+                    <br /><br />
+                    Erfassen Sie dazu Ihr aktuelles monatliches Einkommen (14x jährlich), etwaige Wohnkosten (wie z.B. Miete, Heizung, Strom)
+                    Einkünfte aus Alimente und Unterhaltszahlungen an Sie bzw. Unterhaltszahlungen von Ihnen.
+                </div>
+            </div>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                    @Html.LabelFor(model => model.MonatsEinkommenNetto, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    @Html.EditorFor(model => model.MonatsEinkommenNetto, new { htmlAttributes = new { @class = "form-control", placeholder = "0" } })
+                    @Html.ValidationMessageFor(model => model.MonatsEinkommenNetto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                    @Html.LabelFor(model => model.Wohnkosten, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    @Html.EditorFor(model => model.Wohnkosten, new { htmlAttributes = new { @class = "form-control", placeholder = "0" } })
+                    @Html.ValidationMessageFor(model => model.Wohnkosten, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                    @Html.LabelFor(model => model.EinkuenfteAlimenteUnterhalt, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    @Html.EditorFor(model => model.EinkuenfteAlimenteUnterhalt, new { htmlAttributes = new { @class = "form-control", placeholder = "0" } })
+                    @Html.ValidationMessageFor(model => model.EinkuenfteAlimenteUnterhalt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                    @Html.LabelFor(model => model.AusgabenAlimenteUnterhalt, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    @Html.EditorFor(model => model.AusgabenAlimenteUnterhalt, new { htmlAttributes = new { @class = "form-control", placeholder = "0" } })
+                    @Html.ValidationMessageFor(model => model.AusgabenAlimenteUnterhalt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                    @Html.LabelFor(model => model.Raten, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    @Html.EditorFor(model => model.Raten, new { htmlAttributes = new { @class = "form-control", placeholder = "0" } })
+                    @Html.ValidationMessageFor(model => model.Raten, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-offset-4 col-md-offset-4 col-lg-3 col-md-3">
+                    <input type="submit" value="Bestätigen" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

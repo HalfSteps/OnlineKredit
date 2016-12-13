@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>Digy - Preview</title>
+    <link rel="stylesheet" href="http://chocotemplates.com/preview/preview.css" type="text/css" media="all" />
+    <script src="/Scripts/jquery.min.js"></script>
+    <script src="http://chocotemplates.com/preview/preview.js" type="text/javascript"></script>
+
+    <title>slideControl.js jQuery Plugin</title>
+    <link rel="stylesheet" type="text/css" href="/content/css/slideControl.css" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/content/js/jquery.slideControl.js"></script>
+    <script type="text/javascript">
+$(document).ready(function() {
+    $('.slideControl').slideControl(
+        {
+            lowerBound: 1000
+        }
+        );
+	prettyPrint();
+});
+    </script>
+    <link rel="stylesheet" type="text/css" href="extra/style.css" />
+    <script type="text/javascript" src="extra/prettify.js"></script>
+
+</head>
+<body class="html">
+
+    <div class="content">
+        <h1>slideControl.js jQuery Plugin <sup>1.0</sup></h1>
+        <h3><a href="http://nikorablin.com">Nik Korablin</a></h3>
+    </div>
+    <div class="content">
+        <ul class="clearfix">
+            <li><label>Foo: </label><input type="text" value="10000" class="slideControl" maxlength="7" /></li>
+        </ul>
+    </div>
+    <div class="content">
+        <h2>The Code</h2>
+        <h3>In Your &lt;head&gt;</h3>
+        <pre class="prettyprint">
+&lt;link rel="stylesheet" type="text/css" href="slideControl.css" /&gt;
+&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="jquery.slideControl.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+$(document).ready(function() {
+	$('.slideControl').slideControl();
+});
+&lt;/script&gt;</pre>
+        <h3>Options</h3>
+        <ul class="options">
+            <li>speed: Controls the speed of the animation for a slider reszing, defaults to 400</li>
+            <li>lowerBound: Sets the minimum amount the slider can be set to, defaults to 1</li>
+            <li>upperBound: Sets the maximum amount the slider can be set to, defaults to 10</li>
+        </ul>
+        <h3>HTML</h3>
+        <pre class="prettyprint">
+&lt;ul&gt;
+	&lt;li&gt;&lt;label&gt;Responsiveness: &lt;/label&gt;&lt;input type="text" value="6.0" class="slideControl" /&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;label&gt;Safety: &lt;/label&gt;&lt;input type="text" value="4.0" class="slideControl" /&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;label&gt;Information: &lt;/label&gt;&lt;input type="text" value="9.0" class="slideControl" /&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre>
+        <h3>CSS</h3>
+        <p>The CSS file included should be pretty straight-forward. You can change the look of your slide controllers in there from background color to size to how the handle looks. Just take a look around and it should be pretty easy to make changes.</p>
+    </div>
+    <div class="content">
+        <h3>Usage</h3>
+        <p>You are free to use the slideControl.js plugin however you want. Credit is nice, but not required</p>
+        <ul class="options">
+            <li><a href="">Download</a></li>
+            <li><a href="">Github</a></li>
+            <li><a href="http://nikorablin.com">Portfolio</a></li>
+        </ul>
+    </div>
+
+
+    <div id="customize">
+        <div id="customize-holder">
+            <h2>Digy</h2>
+
+            <div class="responsive">
+                <a href="#" rel="desktop">Desktop</a>
+                <a href="#" rel="tablet">Tablet</a>
+                <a href="#" rel="mobile">Mobile</a>
+            </div>
+
+            <h3>Select Layout:</h3>
+
+            <div class="colors">
+                <div class="cl">&nbsp;</div>
+                <ul>
+                    <li>
+                        <a href="home.html" class="color" style="color:#">
+                            <strong>default</strong>
+                        </a>
+                        <ol>
+                            <li><a href="home.html">home</a></li>
+                        </ol>
+                    </li>
+                </ul>
+                <div class="cl">&nbsp;</div>
+            </div>
+
+        </div>
+    </div>
+    <div class="iframe-holder">
+        <iframe id="frame" src="" width="100%" scrolling="auto" frameborder="0"></iframe>
+    </div>
+</body>
+</html>
