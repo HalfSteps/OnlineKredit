@@ -77,3 +77,7 @@ namespace _DB_AG__Online_Kredit.Models
         public List<TitelModel> AlleTitelangaben { get; set; }
     }
 }
+
+
+
+

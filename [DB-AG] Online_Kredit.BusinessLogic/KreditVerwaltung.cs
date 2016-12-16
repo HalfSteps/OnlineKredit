@@ -584,7 +584,8 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
             Debug.WriteLine("KreditVerwaltung: KontaktDatenSpeichern");
             Debug.Indent();
 
-            bool erfolgreich = false;
+            bool erfolgreich1 = false;
+            bool erfolgreich2 = false;
 
             try
             {
@@ -597,8 +598,17 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
                     if (aktKunde != null)
                     {
 
+                        //aktKunde.KontaktDaten.Strasse = strasse;
+                        //aktKunde.KontaktDaten.Hausnummer = hausnummer;
+                        //aktKunde.KontaktDaten.EMail = mail;
+                        //aktKunde.KontaktDaten.Telefonnummer = telefonNummer;
+                        //aktKunde.KontaktDaten.Ort.Bezeichnung = ort;
+                        //aktKunde.KontaktDaten.Ort.PLZ = idplz;
+                        //aktKunde.KontaktDaten.Ort.FKLand = idland;
+
                         KontaktDaten newKontakt = new KontaktDaten()
                         {
+
                             Strasse = strasse,
                             Hausnummer = hausnummer,
                             EMail = mail,
@@ -606,25 +616,30 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
                             ID = idKunde
                         };
                         context.AlleKontaktDaten.Add(newKontakt);
+                        Debug.WriteLine("KontaktDatenSpeichern: 1.DBContextSave");
+                        int anzahlZeilenBetroffen1 = context.SaveChanges();
+                        Debug.WriteLine("KontaktDatenSpeichern: BoolchangeErfolgreich");
+                        erfolgreich1 = anzahlZeilenBetroffen1 >= 1;
+
                         Debug.WriteLine("KontaktDatenSpeichern: NewOrtKontakt");
 
                         Ort newOrtKontakt = new Ort()
                         {
                             ID = idKunde,
-                            PLZ = idplz,
                             Bezeichnung = ort,
+                            PLZ = idplz,
                             FKLand = idland
-                            
+
                         };
                         context.AlleOrte.Add(newOrtKontakt);
-                        
+
                     }
 
-                    Debug.WriteLine("KontaktDatenSpeichern: DBContextSave");
-                    int anzahlZeilenBetroffen = context.SaveChanges();
+                    Debug.WriteLine("KontaktDatenSpeichern: 2.DBContextSave");
+                    int anzahlZeilenBetroffen2 = context.SaveChanges();
                     Debug.WriteLine("KontaktDatenSpeichern: BoolchangeErfolgreich");
-                    erfolgreich = anzahlZeilenBetroffen >= 1;
-                    Debug.WriteLine($"{anzahlZeilenBetroffen} KontaktDaten gespeichert!");
+                    erfolgreich2 = anzahlZeilenBetroffen2 >= 1;
+                    Debug.WriteLine($"{anzahlZeilenBetroffen2} KontaktDaten gespeichert!");
 
 
                 }
@@ -639,7 +654,7 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
             }
 
             Debug.Unindent();
-            return erfolgreich;
+            return erfolgreich1 & erfolgreich2;
         }
 
     }
