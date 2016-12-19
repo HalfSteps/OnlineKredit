@@ -625,7 +625,6 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
 
                         Ort newOrtKontakt = new Ort()
                         {
-                            ID = idKunde,
                             Bezeichnung = ort,
                             PLZ = idplz,
                             FKLand = idland
@@ -656,6 +655,49 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
             Debug.Unindent();
             return erfolgreich1 & erfolgreich2;
         }
+
+
+        public static Kunde KundeLaden(int idKunde)
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - KundeLaden");
+            Debug.Indent();
+
+            Kunde aktKunde = null;
+            
+            try
+            {
+                using (var context = new dbKreditRechnerEntities())
+                {
+                    aktKunde = context.AlleKunden
+                        .Include("Arbeitgeber")
+                        .Include("Arbeitgeber.BeschaeftigungsArt")
+                        .Include("Arbeitgeber.Branche")
+                        .Include("Familienstand")
+                        .Include("FinanzielleSituation")
+                        .Include("IdentifikationsArt")
+                        .Include("KontaktDaten")
+                        .Include("KontoDaten")
+                        .Include("KreditWunsch")
+                        .Include("Schulabschluss")
+                        .Include("Titel")
+                        .Include("Wohnart")
+                        .Include("Staatsangehoerigkeit")
+                        .Where(x => x.ID == idKunde).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KundeLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return aktKunde;
+        }
+
 
     }
 }

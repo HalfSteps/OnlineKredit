@@ -1,4 +1,4 @@
-﻿// Die T4-Codegenerierung ist für Modell 'C:\Users\StanStep\Documents\Visual Studio 2015\Projects\[DB-AG] Online_Kredit.Web\[DB-AG] Online_Kredit.BusinessLogic\OnlineKreditModel.edmx' aktiviert. 
+﻿// Die T4-Codegenerierung ist für Modell 'C:\Users\StanStep\Documents\Visual Studio 2015\Projects\OnlineKredit.Web\[DB-AG] Online_Kredit.BusinessLogic\OnlineKreditModel.edmx' aktiviert. 
 // Um die Generierung von Legacycode zu aktivieren, ändern Sie den Wert der Designer-Eigenschaft 'Code Generation Strategy'
 // in 'Legacy ObjectContext'. Diese Eigenschaft wird im Eigenschaftenfenster angezeigt, wenn das Modell
 // im Designer geöffnet ist.

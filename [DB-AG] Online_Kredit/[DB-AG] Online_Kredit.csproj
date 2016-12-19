@@ -447,6 +447,7 @@
     <Compile Include="Models\StaatsbuergerschaftsModel.cs" />
     <Compile Include="Models\TitelModel.cs" />
     <Compile Include="Models\WohnartModel.cs" />
+    <Compile Include="Models\ZusammenfassungsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
