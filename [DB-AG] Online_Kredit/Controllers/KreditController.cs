@@ -1,5 +1,6 @@
 ﻿using _DB_AG__Online_Kredit.BusinessLogic;
 using _DB_AG__Online_Kredit.Models;
+using KreditFreigabe;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +13,6 @@ namespace _DB_AG__Online_Kredit.Controllers
     public class KreditController : Controller
     {
         [HttpGet]
-        // GET: Kredit
         public ActionResult KreditRechner()
         {
             Debug.WriteLine("HttpGet: Kredit/KreditRechner");
@@ -65,7 +65,6 @@ namespace _DB_AG__Online_Kredit.Controllers
 
             if (ModelState.IsValid)
             {
-                /// speichere Daten über BusinessLogic
                 if (KreditVerwaltung.FinanzielleSituationSpeichern(
                                                 model.MonatsEinkommenNetto,
                                                 model.Raten,
@@ -86,7 +85,7 @@ namespace _DB_AG__Online_Kredit.Controllers
         [HttpGet]
         public ActionResult Arbeitgeber()
         {
-            Debug.WriteLine("GET - Kredit - Arbeitgeber");
+            Debug.WriteLine("HttpGet: Kredit/Arbeitgeber");
 
             List<BeschaeftigungModel> alleBeschaeftigungen = new List<BeschaeftigungModel>();
             List<BrancheModel> alleBranchen = new List<BrancheModel>();
@@ -124,11 +123,10 @@ namespace _DB_AG__Online_Kredit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Arbeitgeber(ArbeitgeberModel model)
         {
-            Debug.WriteLine("HttpPost: Kredit - Arbeitgeber");
+            Debug.WriteLine("HttpPost: Kredit/Arbeitgeber");
 
             if (ModelState.IsValid)
             {
-                /// speichere Daten über BusinessLogic
                 if (KreditVerwaltung.ArbeitgeberSpeichern(
                                                 model.Firma,
                                                 model.ID_BeschaeftigungsArt,
@@ -149,7 +147,7 @@ namespace _DB_AG__Online_Kredit.Controllers
         [HttpGet]
         public ActionResult PersönlicheDaten()
         {
-            Debug.WriteLine("HttpGet: Kredit - PersönlicheDaten");
+            Debug.WriteLine("HttpGet: Kredit/PersönlicheDaten");
 
             List<BildungsModel> alleBildungsAngaben = new List<BildungsModel>();
             List<FamilienstandModel> alleFamilienStandAngaben = new List<FamilienstandModel>();
@@ -158,7 +156,6 @@ namespace _DB_AG__Online_Kredit.Controllers
             List<TitelModel> alleTitelAngaben = new List<TitelModel>();
             List<WohnartModel> alleWohnartAngaben = new List<WohnartModel>();
 
-            /// Lade Daten aus Logic
             foreach (var bildungsAngabe in KreditVerwaltung.BildungsangabenLaden())
             {
                 alleBildungsAngaben.Add(new BildungsModel()
@@ -228,11 +225,10 @@ namespace _DB_AG__Online_Kredit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult PersönlicheDaten(PersönlicheDatenModel model)
         {
-            Debug.WriteLine("HttpPost: Kredit - PersönlicheDaten");
+            Debug.WriteLine("HttpPost: Kredit/PersönlicheDaten");
 
             if (ModelState.IsValid)
             {
-                /// speichere Daten über BusinessLogic
                 if (KreditVerwaltung.PersönlicheDatenSpeichern(
                                                 model.ID_Titel,
                                                 model.Geschlecht == Geschlecht.Männlich ? "m" : "w",
@@ -258,7 +254,7 @@ namespace _DB_AG__Online_Kredit.Controllers
         [HttpGet]
         public ActionResult KontoInformationen()
         {
-            Debug.WriteLine("HttpGet: KonsumKredit - KontoInformationen");
+            Debug.WriteLine("HttpGet: KreditVerwaltung/KontoInformationen");
 
             KontoInformationsModel model = new KontoInformationsModel()
             {
@@ -271,7 +267,7 @@ namespace _DB_AG__Online_Kredit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult KontoInformationen(KontoInformationsModel model)
         {
-            Debug.WriteLine("HttpPost: KonsumKredit - KontoInformationen");
+            Debug.WriteLine("HttpPost: KreditVerwaltung/KontoInformationen");
 
             if (ModelState.IsValid)
             {
@@ -295,7 +291,7 @@ namespace _DB_AG__Online_Kredit.Controllers
         [HttpGet]
         public ActionResult KontaktDaten()
         {
-            Debug.WriteLine("HttpGet: Kredit - KontaktDaten");
+            Debug.WriteLine("HttpGet: Kredit/KontaktDaten");
 
 
             List<StaatsbuergerschaftsModel> alleLaender = new List<StaatsbuergerschaftsModel>();
@@ -325,7 +321,7 @@ namespace _DB_AG__Online_Kredit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult KontaktDaten(KontaktdatenModel model)
         {
-            Debug.WriteLine("HttpPost: Kredit - KontaktDaten");
+            Debug.WriteLine("HttpPost: Kredit/KontaktDaten");
 
             if (ModelState.IsValid)
             {
@@ -352,73 +348,93 @@ namespace _DB_AG__Online_Kredit.Controllers
         [HttpGet]
         public ActionResult Zusammenfassung()
         {
-            Debug.WriteLine("GET - KonsumKredit - Zusammenfassung");
+            Debug.WriteLine("HttpGet: KreditVerwaltung/Zusammenfassung");
 
-            /// ermittle für diese Kunden_ID
-            /// alle gespeicherten Daten (ACHTUNG! das sind viele ....)
-            /// gib Sie alle in das ZusammenfassungsModel (bzw. die UNTER-Modelle) 
-            /// hinein.
             ZusammenfassungsModel model = new ZusammenfassungsModel();
-            model.ID_Kunde = int.Parse(Request.Cookies["idKunde"].Value);
 
-            /// lädt ALLE Daten zu diesem Kunden (also auch die angehängten/referenzierten
-            /// Entities) aus der DB
+            model.ID_Kunde = int.Parse(Request.Cookies["id"].Value);
+
             Kunde aktKunde = KreditVerwaltung.KundeLaden(model.ID_Kunde);
 
-            model.GewünschterBetrag = (int)aktKunde.KreditWunsch.Betrag.Value;
-            model.Laufzeit = aktKunde.KreditWunsch.Laufzeit.Value;
+            model.Betrag = (int)aktKunde.KreditWunsch.Betrag;
+            model.Laufzeit = aktKunde.KreditWunsch.Laufzeit;
 
-            model.NettoEinkommen = (double)aktKunde.FinanzielleSituation.MonatsEinkommen.Value;
+            model.MonatsNettoEinkommen = (double)aktKunde.FinanzielleSituation.MonatsEinkommenNetto.Value;
             model.Wohnkosten = (double)aktKunde.FinanzielleSituation.Wohnkosten.Value;
-            model.EinkünfteAlimenteUnterhalt = (double)aktKunde.FinanzielleSituation.EinkuenfteAlimenteUnterhalt.Value;
-            model.UnterhaltsZahlungen = (double)aktKunde.FinanzielleSituation.AusgabenALIUNT.Value;
-            model.RatenVerpflichtungen = (double)aktKunde.FinanzielleSituation.RatenZahlungen.Value;
+            model.EinkuenfteAlimenteUnterhalt = (double)aktKunde.FinanzielleSituation.EinkuenfteAlimenteUnterhalt.Value;
+            model.EinkuenfteAlimenteUnterhalt = (double)aktKunde.FinanzielleSituation.AusgabenAlimenteUnterhalt.Value;
+            model.Raten = (double)aktKunde.FinanzielleSituation.Raten.Value;
 
-            model.Geschlecht = aktKunde.Gechlecht == "m" ? "Herr" : "Frau";
+            model.Geschlecht = aktKunde.Geschlecht == "m" ? "Herr" : "Frau";
             model.Vorname = aktKunde.Vorname;
             model.Nachname = aktKunde.Nachname;
             model.Titel = aktKunde.Titel?.Bezeichnung;
-            model.TitelNachstehend = aktKunde.TitelNachstehend?.Bezeichnung;
-            model.GeburtsDatum = DateTime.Now;
-            model.Staatsbuergerschaft = aktKunde.Staatsangehoerigkeit?.Bezeichnung;
-            model.AnzahlUnterhaltspflichtigeKinder = -1;
+            model.Geburtsdatum = DateTime.Now;
+            model.Staatsangehoerigkeit = aktKunde.Staatsangehoerigkeit?.Bezeichnung;
             model.Familienstand = aktKunde.Familienstand?.Bezeichnung;
             model.Wohnart = aktKunde.Wohnart?.Bezeichnung;
-            model.Bildung = aktKunde.Schulabschluss?.Bezeichnung;
-            model.Identifikationsart = aktKunde.IdentifikationsArt?.Bezeichnung;
+            model.Schulabschluss = aktKunde.Schulabschluss?.Bezeichnung;
+            model.IdentifikationsArt = aktKunde.IdentifikationsArt?.Bezeichnung;
             model.IdentifikationsNummer = aktKunde.IdentifikationsNummer;
 
-            model.FirmenName = aktKunde.Arbeitgeber?.Firma;
-            model.BeschäftigungsArt = aktKunde.Arbeitgeber?.BeschaeftigungsArt?.Bezeichnung;
+            model.FirmaName = aktKunde.Arbeitgeber?.Firma;
             model.Branche = aktKunde.Arbeitgeber?.Branche?.Bezeichnung;
-            model.BeschäftigtSeit = aktKunde.Arbeitgeber?.BeschaeftigtSeit.Value.ToShortDateString();
+            model.BeschaeftigungsArt = aktKunde.Arbeitgeber?.BeschaeftigungsArt?.Bezeichnung;
+            model.BeschaeftigtSeit = aktKunde.Arbeitgeber?.BeschaeftigtSeit.Value.ToShortDateString();
 
             model.Strasse = aktKunde.KontaktDaten?.Strasse;
             model.Hausnummer = aktKunde.KontaktDaten?.Hausnummer;
-            model.Ort = aktKunde.KontaktDaten?.Ort.PLZ;
-            model.Mail = aktKunde.KontaktDaten?.EMail;
-            model.TelefonNummer = aktKunde.KontaktDaten?.Telefonnummer;
+            model.ID_PLZ = aktKunde.KontaktDaten?.Ort.PLZ;
+            model.EMail = aktKunde.KontaktDaten?.EMail;
+            model.Telefonnummer = aktKunde.KontaktDaten?.Telefonnummer;
 
-            model.NeuesKonto = (bool)aktKunde.KontoDaten?.IstDB_Kunde.Value;
-            model.BankName = aktKunde.KontoDaten?.BankName;
+            model.NeuesKonto = (bool)aktKunde.KontoDaten?.HatKonto;
+            model.Bank = aktKunde.KontoDaten?.Bank;
             model.IBAN = aktKunde.KontoDaten?.IBAN;
             model.BIC = aktKunde.KontoDaten?.BIC;
 
-            /// gib model an die View
+
+
             return View(model);
         }
 
 
-        //public ActionResult Zusammenfassung()
-        //{
-        //    return View();
-        //}
 
-        //public ActionResult Zusammenfassung(ZusammenfassungModel model)
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Bestätigung(int id, bool? bestätigt)
+        {
+            if (bestätigt.HasValue && bestätigt.Value)
+            {
+                Debug.WriteLine("HttpPost: Kredit/Bestätigung");
+                Debug.Indent();
 
-        //}
+                Kunde aktKunde = KreditVerwaltung.KundeLaden(id);
+                Response.Cookies.Remove("idKunde");
+
+                bool istFreigegeben = FreigabeErteilt.Freigabe(
+                                                          aktKunde.Geschlecht,
+                                                            aktKunde.Vorname,
+                                                            aktKunde.Nachname,
+                                                            aktKunde.Familienstand.Bezeichnung,
+                                                            (double)aktKunde.FinanzielleSituation.MonatsEinkommenNetto,
+                                                            (double)aktKunde.FinanzielleSituation.Wohnkosten,
+                                                            (double)aktKunde.FinanzielleSituation.EinkuenfteAlimenteUnterhalt,
+                                                            (double)aktKunde.FinanzielleSituation.AusgabenAlimenteUnterhalt,
+                                                            (double)aktKunde.FinanzielleSituation.Raten);
+
+                /// Rüfe Service/DLL auf und prüfe auf Kreditfreigabe
+                Debug.WriteLine($"Kreditfreigabe {(istFreigegeben ? "" : "nicht")}erteilt!");
+
+                Debug.Unindent();
+                return RedirectToAction("Index", "Freigabe", new { erfolgreich = istFreigegeben });
+
+            }
+            else
+            {
+                return RedirectToAction("Zusammenfassung");
+            }
+        }
+
     }
 }

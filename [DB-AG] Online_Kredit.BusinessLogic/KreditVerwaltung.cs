@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using _DB_AG__Online_Kredit.BusinessLogic;
+using System.Threading;
 
 namespace _DB_AG__Online_Kredit.BusinessLogic
 {
@@ -83,7 +85,7 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
                             Betrag = (decimal)kreditBetrag,
                             Laufzeit = laufzeit,
                             Bewilligt = false,
-                            FKKunde = aktKunde.ID
+                            ID = aktKunde.ID
                         };
 
                         context.AlleKreditWünsche.Add(newKreditWunsch);
@@ -625,6 +627,7 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
 
                         Ort newOrtKontakt = new Ort()
                         {
+                            ID = idKunde,
                             Bezeichnung = ort,
                             PLZ = idplz,
                             FKLand = idland
@@ -656,7 +659,7 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
             return erfolgreich1 & erfolgreich2;
         }
 
-
+        
         public static Kunde KundeLaden(int idKunde)
         {
             Debug.WriteLine("KonsumKreditVerwaltung - KundeLaden");
@@ -676,6 +679,7 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
                         .Include("FinanzielleSituation")
                         .Include("IdentifikationsArt")
                         .Include("KontaktDaten")
+                        .Include("KontaktDaten.Ort")
                         .Include("KontoDaten")
                         .Include("KreditWunsch")
                         .Include("Schulabschluss")
@@ -701,3 +705,4 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
 
     }
 }
+

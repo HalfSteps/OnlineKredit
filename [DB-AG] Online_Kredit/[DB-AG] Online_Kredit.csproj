@@ -571,6 +571,7 @@
     <Content Include="Views\Kredit\PersönlicheDaten.cshtml" />
     <Content Include="Views\Kredit\KontoInformationen.cshtml" />
     <Content Include="Views\Kredit\KontaktDaten.cshtml" />
+    <Content Include="Views\Kredit\Zusammenfassung.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -586,6 +587,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KreditFreigabe\KreditFreigabe.csproj">
+      <Project>{a12e380a-f6d7-4d63-9da9-5aeba3381ce1}</Project>
+      <Name>KreditFreigabe</Name>
+    </ProjectReference>
     <ProjectReference Include="..\[DB-AG] Online_Kredit.BusinessLogic\[DB-AG] Online_Kredit.BusinessLogic.csproj">
       <Project>{62906a5d-bc30-45bf-b53c-c21af54eb825}</Project>
       <Name>[DB-AG] Online_Kredit.BusinessLogic</Name>

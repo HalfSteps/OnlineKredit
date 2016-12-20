@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[DB-AG] Online_Kredit", "[D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[DB-AG] Online_Kredit.BusinessLogic", "[DB-AG] Online_Kredit.BusinessLogic\[DB-AG] Online_Kredit.BusinessLogic.csproj", "{62906A5D-BC30-45BF-B53C-C21AF54EB825}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KreditFreigabe", "KreditFreigabe\KreditFreigabe.csproj", "{A12E380A-F6D7-4D63-9DA9-5AEBA3381CE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{62906A5D-BC30-45BF-B53C-C21AF54EB825}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62906A5D-BC30-45BF-B53C-C21AF54EB825}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62906A5D-BC30-45BF-B53C-C21AF54EB825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A12E380A-F6D7-4D63-9DA9-5AEBA3381CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A12E380A-F6D7-4D63-9DA9-5AEBA3381CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A12E380A-F6D7-4D63-9DA9-5AEBA3381CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A12E380A-F6D7-4D63-9DA9-5AEBA3381CE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

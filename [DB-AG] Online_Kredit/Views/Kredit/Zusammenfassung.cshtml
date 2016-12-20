@@ -1,0 +1,348 @@
+﻿@model _DB_AG__Online_Kredit.Models.ZusammenfassungsModel
+
+@{
+    ViewBag.Title = "Zusammenfassung";
+}
+
+
+<div id="content" style="margin-top: 20px">
+    <h2>Zusammenfassung</h2>
+    <div class="form-horizontal">
+        <div class="row" style="margin-top: 20px">
+            <div class="col-lg-offset-4 col-md-offset-4 col-lg-6 col-md-6">
+                Sie sehen nun alle von Ihnen erfasste Daten. Bitte kontrollieren Sie diese und wechseln Sie
+                nach Wunsch zurück zu den einzelnen Schritten. Wenn die Daten korrekt sind, bestätigen Sie
+                dies bitte und wir melden uns umgehend bezüglich Ihres Kreditantrags bei Ihnen!
+                <br /><br />
+            </div>
+        </div>
+        <hr />
+        <h3>Kreditrahmen</h3>
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                @Html.DisplayNameFor(model => model.Betrag)
+            </div>
+            <div class="col-lg-6 col-md-6">
+                @Html.DisplayFor(model => model.Betrag  )
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                @Html.DisplayNameFor(model => model.Laufzeit)
+            </div>
+            <div class="col-lg-6 col-md-6">
+                @Html.DisplayFor(model => model.Laufzeit) Monate
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-4 col-md-offset-4 col-lg-3 col-md-3">
+                @Html.ActionLink("Ändern", "KreditRechner", "Kredit", new { id = Model.ID_Kunde }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+        <hr />
+
+
+        <h3>Finanzielle Situation</h3>
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                @Html.DisplayNameFor(model => model.MonatsNettoEinkommen)
+            </div>
+            <div class="col-lg-6 col-md-6">
+                @Html.DisplayFor(model => model.MonatsNettoEinkommen)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                @Html.DisplayNameFor(model => model.Wohnkosten)
+            </div>
+            <div class="col-lg-6 col-md-6">
+                @Html.DisplayFor(model => model.Wohnkosten)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                @Html.DisplayNameFor(model => model.EinkuenfteAlimenteUnterhalt)
+            </div>
+            <div class="col-lg-6 col-md-6">
+                @Html.DisplayFor(model => model.EinkuenfteAlimenteUnterhalt)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                @Html.DisplayNameFor(model => model.AusgabenAlimenteUnterhalt)
+            </div>
+            <div class="col-lg-6 col-md-6">
+                @Html.DisplayFor(model => model.AusgabenAlimenteUnterhalt)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                @Html.DisplayNameFor(model => model.Raten)
+            </div>
+            <div class="col-lg-6 col-md-6">
+                @Html.DisplayFor(model => model.Raten)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-4 col-md-offset-4 col-lg-3 col-md-3">
+                @Html.ActionLink("Ändern", "FinanzielleSituation", "Kredit", new { id = Model.ID_Kunde }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+    <hr />
+
+
+    <h3>Persönliche Daten</h3>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Geschlecht)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Geschlecht)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Titel)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Titel)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Vorname)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Vorname)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Nachname)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Nachname)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Geburtsdatum)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Geburtsdatum)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Staatsangehoerigkeit)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Staatsangehoerigkeit)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Familienstand)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Familienstand)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Wohnart)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Wohnart)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Schulabschluss)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Schulabschluss)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.IdentifikationsArt)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.IdentifikationsArt)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.IdentifikationsNummer)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.IdentifikationsNummer)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-4 col-md-offset-4 col-lg-3 col-md-3">
+            @Html.ActionLink("Ändern", "PersönlicheDaten", "Kredit", new { id = Model.ID_Kunde }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+    <hr />
+
+
+    <h3>Arbeitgeber Angaben</h3>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.FirmaName)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.FirmaName)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.BeschaeftigungsArt)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.BeschaeftigungsArt)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Branche)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Branche)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.BeschaeftigtSeit)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.BeschaeftigtSeit)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-4 col-md-offset-4 col-lg-3 col-md-3">
+            @Html.ActionLink("Ändern", "Arbeitgeber", "Kredit", new { id = Model.ID_Kunde }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+    <hr />
+
+
+    <h3>Kontakt-Daten</h3>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Strasse)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Strasse)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Hausnummer)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Hausnummer)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Ort)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Ort)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.EMail)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.EMail)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            @Html.DisplayNameFor(model => model.Telefonnummer)
+        </div>
+        <div class="col-lg-6 col-md-6">
+            @Html.DisplayFor(model => model.Telefonnummer)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-4 col-md-offset-4 col-lg-3 col-md-3">
+            @Html.ActionLink("Ändern", "KontaktDaten", "Kredit", new { id = Model.ID_Kunde }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+    <hr />
+
+
+    <h3>Konto Informationen</h3>
+    @if (Model.NeuesKonto)
+    {
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            </div>
+            <div class="col-lg-6 col-md-6">
+                Sie wünschen ein neues Konto bei der Infinitus Bank.
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                @Html.DisplayNameFor(model => model.Bank)
+            </div>
+            <div class="col-lg-6 col-md-6">
+                @Html.DisplayFor(model => model.Bank)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                @Html.DisplayNameFor(model => model.IBAN)
+            </div>
+            <div class="col-lg-6 col-md-6">
+                @Html.DisplayFor(model => model.IBAN)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+                @Html.DisplayNameFor(model => model.BIC)
+            </div>
+            <div class="col-lg-6 col-md-6">
+                @Html.DisplayFor(model => model.BIC)
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col-lg-offset-4 col-md-offset-4 col-lg-3 col-md-3">
+            @Html.ActionLink("Ändern", "KontoInformationen", "KonsumKredit", new { id = Model.ID_Kunde }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+    <hr />
+
+
+    <h3>Einverständnis Erklärung</h3>
+    @using (Html.BeginForm("Bestätigung", "KonsumKredit", FormMethod.Post))
+            {
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-1 col-lg-3 col-md-3" style="text-align: right">
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <input type="checkbox" name="bestätigt" value="true" />
+                Ich bestätige hiermit die Richtigkeit der Angaben und ersuche um einen Kredit.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-4 col-md-offset-4 col-lg-3 col-md-3">
+
+                @Html.AntiForgeryToken()
+                @Html.Hidden("id", Model.ID_Kunde)
+                <input class="btn btn-default" type="submit" value="Bestätigen">
+            </div>
+        </div>
+    }
+</div>

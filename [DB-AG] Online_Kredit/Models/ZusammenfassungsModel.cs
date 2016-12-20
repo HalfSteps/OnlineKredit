@@ -11,9 +11,8 @@ namespace _DB_AG__Online_Kredit.Models
         public int ID_Kunde { get; set; }
 
 
-        public int KreditBetrag { get; set; }
+        public int Betrag { get; set; }
         public int Laufzeit { get; set; }
-
 
         public double MonatsNettoEinkommen { get; set; }
         public double Wohnkosten { get; set; }
@@ -38,21 +37,21 @@ namespace _DB_AG__Online_Kredit.Models
         public string FirmaName { get; set; }
         public string BeschaeftigungsArt { get; set; }
         public string Branche { get; set; }
-        public string BeschäeftigtSeit { get; set; }
-       
-       
+        public string BeschaeftigtSeit { get; set; }
+
+
         public string Strasse { get; set; }
         public string Hausnummer { get; set; }
         public string Ort { get; set; }
-        public string Email { get; set; }
+        public string ID_PLZ { get; set; }
+        public string EMail { get; set; }
         public string Telefonnummer { get; set; }
-   
 
-        public bool NewKonto { get; set; }
-        public string BankName { get; set; }
+
+        public bool NeuesKonto { get; set; }
+        public string Bank { get; set; }
         public string IBAN { get; set; }
         public string BIC { get; set; }
-
 
     }
 }

@@ -20,8 +20,6 @@ public partial class KreditWunsch
 
     public int ID { get; set; }
 
-    public int FKKunde { get; set; }
-
     public decimal Betrag { get; set; }
 
     public short Laufzeit { get; set; }

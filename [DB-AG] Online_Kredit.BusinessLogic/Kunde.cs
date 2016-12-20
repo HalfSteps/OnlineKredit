@@ -18,14 +18,6 @@ using System;
 public partial class Kunde
 {
 
-    public Kunde()
-    {
-
-        this.KreditWunsch = new HashSet<KreditWunsch>();
-
-    }
-
-
     public int ID { get; set; }
 
     public string Vorname { get; set; }
@@ -72,7 +64,7 @@ public partial class Kunde
 
     public virtual Wohnart Wohnart { get; set; }
 
-    public virtual ICollection<KreditWunsch> KreditWunsch { get; set; }
+    public virtual KreditWunsch KreditWunsch { get; set; }
 
 }
 
