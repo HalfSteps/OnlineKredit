@@ -8,7 +8,7 @@ namespace _DB_AG__Online_Kredit.Models
     public class KontaktdatenModel
     {
 
-        public string Straße { get; set; }
+        public string Strasse { get; set; }
         public string Hausnummer { get; set; }
         public string ID_PLZ { get; set; }
         public string EMail { get; set; }

@@ -42,8 +42,9 @@ namespace _DB_AG__Online_Kredit.Models
 
         public string Strasse { get; set; }
         public string Hausnummer { get; set; }
+        public string Land { get; set; }
         public string Ort { get; set; }
-        public string ID_PLZ { get; set; }
+        public string PLZ { get; set; }
         public string EMail { get; set; }
         public string Telefonnummer { get; set; }
 

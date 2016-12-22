@@ -53,13 +53,8 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
             return newKunde;
         }
 
-        /// <summary>
-        /// Speichert zu einer übergebenene ID den Wunsch Kredit und dessen Laufzeit ab
-        /// </summary>
-        /// <param name="kreditBetrag">die Höhe des gewünschten Kredits</param>
-        /// <param name="laufzeit">die Laufzeit des gewünschten Kredits</param>
-        /// <param name="idKunde">die ID des Kunden zu dem die Angaben gespeichert werden sollen</param>
-        /// <returns>true wenn Eintragung gespeichert werden konnte und der Kunde existiert, ansonsten false</returns>
+
+
         public static bool KreditSpeichern(double kreditBetrag, short laufzeit, int idKunde)
         {
             Debug.WriteLine("KreditVerwaltung: KreditSpeichern");
@@ -84,8 +79,7 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
                         {
                             Betrag = (decimal)kreditBetrag,
                             Laufzeit = laufzeit,
-                            Bewilligt = false,
-                            ID = aktKunde.ID
+                            Bewilligt = false
                         };
 
                         context.AlleKreditWünsche.Add(newKreditWunsch);
@@ -304,10 +298,8 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
             return alleAbschlüsse;
         }
 
-        /// <summary>
-        /// Liefert alle FamilienStand zurück
-        /// </summary>
-        /// <returns>alle FamilienStand oder null bei einem Fehler</returns>
+
+
         public static List<Familienstand> FamilienstandLaden()
         {
             Debug.WriteLine("KreditVerwaltung: FamilienstandLaden");
@@ -335,10 +327,8 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
             return alleFamilienStandsAngaben;
         }
 
-        /// <summary>
-        /// Liefert alle Länder zurück
-        /// </summary>
-        /// <returns>alle Länder oder null bei einem Fehler</returns>
+
+
         public static List<Land> LaenderLaden()
         {
             Debug.WriteLine("KreditVerwaltung LaenderLaden");
@@ -428,10 +418,8 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
             return alleIdentifikationsArten;
         }
 
-        /// <summary>
-        /// Liefert alle Titel zurück
-        /// </summary>
-        /// <returns>alle Titel oder null bei einem Fehler</returns>
+
+
         public static List<Titel> TitelLaden()
         {
             Debug.WriteLine("KreditVerwaltung: TitelLaden");
@@ -461,22 +449,6 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
 
 
 
-        /// <summary>
-        /// Speichert die Daten für die übergebene idKunde
-        /// </summary>
-        /// <param name="idTitel">der Titel des Kunden</param>
-        /// <param name="geschlecht">das Geschlecht des Kunden</param>
-        /// <param name="geburtsDatum">das Geburtsdatum des Kunden</param>
-        /// <param name="vorname">der Vorname des Kunden</param>
-        /// <param name="nachname">der Nachname des Kunden</param>
-        /// <param name="idBildung">die Bildung des Kunden</param>
-        /// <param name="idFamilienstand">der Familienstand des Kunden</param>
-        /// <param name="idIdentifikationsart">die Identifikations des Kunden</param>
-        /// <param name="identifikationsNummer">der Identifikations-Nummer des Kunden</param>
-        /// <param name="idStaatsbuergerschaft">die Staatsbürgerschaft des Kunden</param>
-        /// <param name="idWohnart">die Wohnart des Kunden</param>
-        /// <param name="idKunde">die ID des Kunden</param>
-        /// <returns>true wenn das Anpassen der Werte erfolgreich war, ansonsten false</returns>
         public static bool PersönlicheDatenSpeichern(int? idTitel, string geschlecht, DateTime geburtsDatum, string vorname, string nachname, int idBildung, int idFamilienstand, int idIdentifikationsart, string identifikationsNummer, string idStaatsbuergerschaft, int idWohnart, int idKunde)
         {
             Debug.WriteLine("KreditVerwaltung: PersönlicheDatenSpeichern");
@@ -659,10 +631,12 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
             return erfolgreich1 & erfolgreich2;
         }
 
-        
+
+
+        #region [Zusammenfassung: Kundendaten laden]
         public static Kunde KundeLaden(int idKunde)
         {
-            Debug.WriteLine("KonsumKreditVerwaltung - KundeLaden");
+            Debug.WriteLine("KreditVerwaltung: KundeLaden");
             Debug.Indent();
 
             Kunde aktKunde = null;
@@ -680,6 +654,7 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
                         .Include("IdentifikationsArt")
                         .Include("KontaktDaten")
                         .Include("KontaktDaten.Ort")
+                        .Include("KontaktDaten.Ort.Land")
                         .Include("KontoDaten")
                         .Include("KreditWunsch")
                         .Include("Schulabschluss")
@@ -703,6 +678,186 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
         }
 
 
+
+        
+        public static KreditWunsch KreditLaden(int k_id)
+        {
+            Debug.WriteLine("KreditVerwaltung: KreditLaden");
+            Debug.Indent();
+
+            KreditWunsch wunsch = null;
+
+            try
+            {
+                using (var context = new dbKreditRechnerEntities())
+                {
+                    wunsch = context.AlleKreditWünsche.Where(x => x.ID == k_id).FirstOrDefault();
+                    Debug.WriteLine("KreditRahmen geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KreditLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return wunsch;
+        }
+
+
+        public static FinanzielleSituation FinanzielleSituationLaden(int id)
+        {
+            Debug.WriteLine("KreditVerwaltung: FinanzielleSituationLaden");
+            Debug.Indent();
+
+            FinanzielleSituation finanzielleSituation = null;
+
+            try
+            {
+                using (var context = new dbKreditRechnerEntities())
+                {
+                    finanzielleSituation = context.AlleFinanzielleSituationen.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("FinanzielleSituation geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in FinanzielleSituationLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return finanzielleSituation;
+        }
+
+
+        public static Arbeitgeber ArbeitgeberLaden(int id)
+        {
+            Debug.WriteLine("KreditVerwaltung: ArbeitgeberLaden");
+            Debug.Indent();
+
+            Arbeitgeber aktArbeitgeber = null;
+
+            try
+            {
+                using (var context = new dbKreditRechnerEntities())
+                {
+                    aktArbeitgeber = context.AlleArbeitgeber.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("Arbeitgeber geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in ArbeitgeberLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return aktArbeitgeber;
+        }
+
+
+
+        public static Kunde PersönlicheDatenLaden(int id)
+        {
+            Debug.WriteLine("KreditVerwaltung: PersönlicheDatenLaden");
+            Debug.Indent();
+
+            Kunde persönlicheDaten = null;
+
+            try
+            {
+                using (var context = new dbKreditRechnerEntities())
+                {
+                    persönlicheDaten = context.AlleKunden.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("PersönlicheDatenLaden geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in PersönlicheDatenLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return persönlicheDaten;
+        }
+
+
+        public static KontoDaten KontoInformationenLaden(int id)
+        {
+            Debug.WriteLine("KreditVerwaltung: KontoInformationenLaden");
+            Debug.Indent();
+
+            KontoDaten kontoDaten = null;
+
+            try
+            {
+                using (var context = new dbKreditRechnerEntities())
+                {
+                    kontoDaten = context.AlleKontoDaten.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("KontoInformationen geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KontoInformationenLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return kontoDaten;
+        }
+
+
+
+        public static KontaktDaten KontaktDatenLaden(int id)
+        {
+            Debug.WriteLine("KreditVerwaltung: KontaktDatenLaden");
+            Debug.Indent();
+
+            KontaktDaten kontaktDaten = null;
+
+            try
+            {
+                using (var context = new dbKreditRechnerEntities())
+                {
+                    kontaktDaten = context.AlleKontaktDaten.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("KontaktDaten geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KontaktDatenLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return kontaktDaten;
+        }
+
+
+
+        #endregion
     }
 }
 

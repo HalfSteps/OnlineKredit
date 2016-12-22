@@ -17,7 +17,21 @@ namespace _DB_AG__Online_Kredit.Controllers
         {
             Debug.WriteLine("HttpGet: Kredit/KreditRechner");
 
-            return View();
+            KreditRechnerModel model = new KreditRechnerModel()
+            {
+                KreditBetrag = 25000,  
+                Laufzeit = 12  
+            };
+            int k_id = -1;
+            if (Request.Cookies["id"] != null && int.TryParse(Request.Cookies["id"].Value, out k_id))
+            {
+                KreditWunsch wunsch = KreditVerwaltung.KreditLaden(k_id);
+                model.KreditBetrag = (int)wunsch.Betrag;
+                model.Laufzeit = wunsch.Laufzeit;
+            }
+
+
+            return View(model);
         }
 
         [HttpPost]
@@ -28,13 +42,28 @@ namespace _DB_AG__Online_Kredit.Controllers
 
             if (ModelState.IsValid)
             {
-                Kunde newKunde = KreditVerwaltung.ErzeugeKunde();
 
-                if (newKunde != null && KreditVerwaltung.KreditSpeichern(model.KreditBetrag, model.Laufzeit, newKunde.ID))
+                if (Request.Cookies["id"] == null)
                 {
-                    Response.Cookies.Add(new HttpCookie("id", newKunde.ID.ToString()));
-                    return RedirectToAction("FinanzielleSituation");
+
+                    Kunde newKunde = KreditVerwaltung.ErzeugeKunde();
+
+                    if (newKunde != null && KreditVerwaltung.KreditSpeichern(model.KreditBetrag, model.Laufzeit, newKunde.ID))
+                    {
+                        Response.Cookies.Add(new HttpCookie("id", newKunde.ID.ToString()));
+                        return RedirectToAction("FinanzielleSituation");
+                    }
                 }
+                else
+                {
+                    int idKunde = int.Parse(Request.Cookies["id"].Value);
+
+                    if (KreditVerwaltung.KreditSpeichern(model.KreditBetrag, model.Laufzeit, idKunde))
+                    {
+                        return RedirectToAction("FinanzielleSituation");
+                    }
+                }
+
             }
 
             return View(model);
@@ -53,8 +82,22 @@ namespace _DB_AG__Online_Kredit.Controllers
                 ID_Kunde = int.Parse(Request.Cookies["id"].Value)
             };
 
+
+            FinanzielleSituation situation = KreditVerwaltung.FinanzielleSituationLaden(model.ID_Kunde);
+            if (situation != null)
+            {
+                model.EinkuenfteAlimenteUnterhalt = (double)situation.EinkuenfteAlimenteUnterhalt.Value;
+                model.MonatsEinkommenNetto = (double)situation.MonatsEinkommenNetto.Value;
+                model.Raten = (double)situation.Raten.Value;
+                model.AusgabenAlimenteUnterhalt = (double)situation.AusgabenAlimenteUnterhalt.Value;
+                model.Wohnkosten = (double)situation.Wohnkosten.Value;
+            }
+
+
             return View(model);
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -114,6 +157,16 @@ namespace _DB_AG__Online_Kredit.Controllers
                 AlleBranchen = alleBranchen,
                 ID_Kunde = int.Parse(Request.Cookies["id"].Value)
             };
+
+            Arbeitgeber arbeitgeberDaten = KreditVerwaltung.ArbeitgeberLaden(model.ID_Kunde);
+            if (arbeitgeberDaten != null)
+            {
+                model.BeschaeftigungSeit = arbeitgeberDaten.BeschaeftigtSeit.Value.ToString("MM.yyyy");
+                model.Firma = arbeitgeberDaten.Firma;
+                model.ID_BeschaeftigungsArt = arbeitgeberDaten.FKBeschaeftigungsArt; ;
+                model.ID_Branche = arbeitgeberDaten.FKBranche.Value;
+            }
+
 
             return View(model);
 
@@ -217,6 +270,25 @@ namespace _DB_AG__Online_Kredit.Controllers
                 AlleWohnartangaben = alleWohnartAngaben,
                 ID_Kunde = int.Parse(Request.Cookies["id"].Value)
             };
+
+
+            Kunde kunde = KreditVerwaltung.PersönlicheDatenLaden(model.ID_Kunde);
+            if (kunde != null)
+            {
+                model.Geschlecht = !string.IsNullOrEmpty(kunde.Geschlecht) && kunde.Geschlecht == "m" ? Geschlecht.Männlich : Geschlecht.Weiblich;
+                model.Vorname = kunde.Vorname;
+                model.Nachname = kunde.Nachname;
+                model.ID_Titel = kunde.FKTitel.HasValue ? kunde.FKTitel.Value : 0;
+                //model.GeburtsDatum = DateTime.Now;
+                model.ID_Staatsbuergerschaft = kunde.FKStaatsangehoerigkeit;
+                model.ID_Familienstand = kunde.FKFamilienstand.HasValue ? kunde.FKFamilienstand.Value : 0;
+                model.ID_Wohnart = kunde.FKWohnart.HasValue ? kunde.FKWohnart.Value : 0;
+                model.ID_Bildung = kunde.FKSchulabschluss.HasValue ? kunde.FKSchulabschluss.Value : 0;
+                model.ID_Identifikationsart = kunde.FKIdentifikationsArt.HasValue ? kunde.FKIdentifikationsArt.Value : 0;
+                model.IdentifikationsNummer = kunde.IdentifikationsNummer;
+            }
+
+
             return View(model);
         }
 
@@ -260,6 +332,16 @@ namespace _DB_AG__Online_Kredit.Controllers
             {
                 ID_Kunde = int.Parse(Request.Cookies["id"].Value)
             };
+
+            KontoDaten daten = KreditVerwaltung.KontoInformationenLaden(model.ID_Kunde);
+            if (daten != null)
+            {
+                model.BankName = daten.Bank;
+                model.BIC = daten.BIC;
+                model.IBAN = daten.IBAN;
+                model.NeuesKonto = !daten.HatKonto;
+            }
+
             return View(model);
         }
 
@@ -313,7 +395,18 @@ namespace _DB_AG__Online_Kredit.Controllers
             };
 
 
-                return View(model);
+            KontaktDaten daten = KreditVerwaltung.KontaktDatenLaden(model.ID_Kunde);
+            if (daten != null)
+            {
+                model.Strasse = daten.Strasse;
+                model.Hausnummer = daten.Hausnummer;
+                model.EMail = daten.EMail;
+                model.TelefonNummer = daten.Telefonnummer;
+                model.Ort = daten.Ort.Bezeichnung;
+            }
+
+
+            return View(model);
 
         }
 
@@ -326,7 +419,7 @@ namespace _DB_AG__Online_Kredit.Controllers
             if (ModelState.IsValid)
             {
                 if (KreditVerwaltung.KontaktdatenSpeichern(
-                    model.Straße, 
+                    model.Strasse, 
                     model.Hausnummer,  
                     model.EMail,
                     model.TelefonNummer, 
@@ -384,7 +477,8 @@ namespace _DB_AG__Online_Kredit.Controllers
 
             model.Strasse = aktKunde.KontaktDaten?.Strasse;
             model.Hausnummer = aktKunde.KontaktDaten?.Hausnummer;
-            model.ID_PLZ = aktKunde.KontaktDaten?.Ort.PLZ;
+            model.Land = aktKunde.KontaktDaten?.Ort?.Land?.Bezeichnung;
+            model.PLZ = aktKunde.KontaktDaten?.Ort?.PLZ;
             model.EMail = aktKunde.KontaktDaten?.EMail;
             model.Telefonnummer = aktKunde.KontaktDaten?.Telefonnummer;
 
@@ -410,7 +504,7 @@ namespace _DB_AG__Online_Kredit.Controllers
                 Debug.Indent();
 
                 Kunde aktKunde = KreditVerwaltung.KundeLaden(id);
-                Response.Cookies.Remove("idKunde");
+                Response.Cookies.Remove("id");
 
                 bool istFreigegeben = FreigabeErteilt.Freigabe(
                                                           aktKunde.Geschlecht,
