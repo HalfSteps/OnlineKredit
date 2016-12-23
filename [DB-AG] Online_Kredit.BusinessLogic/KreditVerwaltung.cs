@@ -67,7 +67,6 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
                 using (var context = new dbKreditRechnerEntities())
                 {
 
-                    /// speichere zum Kunden die Angaben
                     Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
 
                     if (aktKunde != null)
@@ -75,15 +74,20 @@ namespace _DB_AG__Online_Kredit.BusinessLogic
 
                         Debug.WriteLine("KreditSpeichern: Create KreditWunsch");
 
-                        KreditWunsch newKreditWunsch = new KreditWunsch()
-                        {
-                            Betrag = (decimal)kreditBetrag,
-                            Laufzeit = laufzeit,
-                            Bewilligt = false
-                        };
+                        KreditWunsch kreditWunsch = context.AlleKreditWünsche.FirstOrDefault(x => x.ID == idKunde);
 
-                        context.AlleKreditWünsche.Add(newKreditWunsch);
+                        if (kreditWunsch == null)
+                        {
+                            /// lege einen neuen an
+                            kreditWunsch = new KreditWunsch();
+                            context.AlleKreditWünsche.Add(kreditWunsch);
+                        }
+
+                        kreditWunsch.Betrag = (decimal)kreditBetrag;
+                        kreditWunsch.Laufzeit = laufzeit;
+                        kreditWunsch.ID = idKunde;
                     }
+
 
                     Debug.WriteLine("KreditSpeichern: DBContextSave");
                     int anzahlZeilenBetroffen = context.SaveChanges();
